@@ -10,7 +10,7 @@ public class StoreService
     public void PrintFullProductInfo()
     {
         var products = _repo.GetAllProducts();
-        Console.WriteLine("\nДЕТАЛЬНИЙ КАТАЛОГ ТОВАРІВЄ");
+        Console.WriteLine("\nДЕТАЛЬНИЙ КАТАЛОГ ТОВАРІВ");
         foreach (var product in products)
         {
             var category = _repo.GetCategoryById(product.category_id);
