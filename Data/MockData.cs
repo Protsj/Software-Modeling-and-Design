@@ -41,110 +41,159 @@ public class MockData
         repository.AddCategory(new Category { id = 33, name = "Заморожені продукти" });
         repository.AddCategory(new Category { id = 34, name = "Морозиво та лід" });
 
-        // ------------------ ТОВАРИ (Products) ------------------
-        repository.AddProduct(new Product { id = 1, category_id = 1, name = "Яблука Голден", count = 150 });
-        repository.AddProduct(new Product { id = 2, category_id = 1, name = "Банани Еквадор", count = 200 });
-        repository.AddProduct(new Product { id = 3, category_id = 1, name = "Лохина (упаковка)", count = 40 });
-        repository.AddProduct(new Product { id = 4, category_id = 2, name = "Помідори Черрі", count = 80 });
-        repository.AddProduct(new Product { id = 5, category_id = 2, name = "Огірки Естафета", count = 120 });
-        repository.AddProduct(new Product { id = 6, category_id = 3, name = "Печериці свіжі", count = 50 });
-        repository.AddProduct(new Product { id = 7, category_id = 5, name = "Свинина (вирізка)", count = 25 });
-        repository.AddProduct(new Product { id = 8, category_id = 6, name = "Філе куряче Наша Ряба", count = 60 });
-        repository.AddProduct(new Product { id = 9, category_id = 8, name = "Ковбаса Лікарська", count = 35 });
-        repository.AddProduct(new Product { id = 10, category_id = 9, name = "Стейк лосося охолоджений", count = 15 });
-        repository.AddProduct(new Product { id = 11, category_id = 10, name = "Молоко Яготинське 2.6%", count = 100 });
-        repository.AddProduct(new Product { id = 12, category_id = 11, name = "Кефір Галичина 1%", count = 45 });
-        repository.AddProduct(new Product { id = 13, category_id = 12, name = "Масло Селянське 73%", count = 80 });
-        repository.AddProduct(new Product { id = 14, category_id = 13, name = "Сир Твердий Комо Канторі", count = 30 });
-        repository.AddProduct(new Product { id = 15, category_id = 14, name = "Яйця курячі Ясенсвіт 10 шт", count = 200 });
-        repository.AddProduct(new Product { id = 16, category_id = 15, name = "Хліб Бородінський нарізаний", count = 40 });
-        repository.AddProduct(new Product { id = 17, category_id = 15, name = "Батон Київський", count = 55 });
-        repository.AddProduct(new Product { id = 18, category_id = 17, name = "Торт Празький ROSHEN", count = 10 });
-        repository.AddProduct(new Product { id = 19, category_id = 19, name = "Гречка Сквірянка 1 кг", count = 120 });
-        repository.AddProduct(new Product { id = 20, category_id = 20, name = "Спагетті Barilla n.5", count = 90 });
-        repository.AddProduct(new Product { id = 21, category_id = 22, name = "Олія соняшникова Олейна 850 мл", count = 150 });
-        repository.AddProduct(new Product { id = 22, category_id = 26, name = "Кава в зернах Lavazza Oro 1 кг", count = 40 });
-        repository.AddProduct(new Product { id = 23, category_id = 27, name = "Чай чорний Lipton Yellow Label", count = 85 });
-        repository.AddProduct(new Product { id = 24, category_id = 29, name = "Вода Моршинська слабогазована 1.5л", count = 300 });
-        repository.AddProduct(new Product { id = 25, category_id = 30, name = "Coca-Cola 2л", count = 180 });
-        repository.AddProduct(new Product { id = 26, category_id = 33, name = "Пельмені Три Ведмеді Фірмові 800г", count = 65 });
-        repository.AddProduct(new Product { id = 27, category_id = 34, name = "Морозиво Хрещатик Пломбір", count = 110 });
+        // ------------------ ТОВАРИ ТА ІНФОРМАЦІЯ (Products and ProductInfo) ------------------
+        var product1 = new Product { id = 1, category_id = 1, name = "Яблука Голден", count = 150 };
+        product1.SetInfo("100% яблука", 52, "Від +2°C до +4°C");
+        repository.AddProduct(product1);
 
-        // ------------------ ІНФОРМАЦІЯ ПРО ТОВАРИ (ProductInfo) ------------------
-        repository.AddProductInfo(new ProductInfo { id = 1, product_id = 1, compositions = "100% яблука", calories = 52, storage_conditions = "Від +2°C до +4°C" });
-        repository.AddProductInfo(new ProductInfo { id = 2, product_id = 2, compositions = "100% банани", calories = 89, storage_conditions = "Від +12°C до +14°C" });
-        repository.AddProductInfo(new ProductInfo { id = 3, product_id = 3, compositions = "Ягоди лохини свіжі", calories = 39, storage_conditions = "Від 0°C до +4°C" });
-        repository.AddProductInfo(new ProductInfo { id = 4, product_id = 4, compositions = "Помідори", calories = 18, storage_conditions = "Від +10°C до +15°C" });
-        repository.AddProductInfo(new ProductInfo { id = 5, product_id = 5, compositions = "Огірки", calories = 15, storage_conditions = "Від +8°C до +10°C" });
-        repository.AddProductInfo(new ProductInfo { id = 6, product_id = 6, compositions = "Гриби печериці", calories = 22, storage_conditions = "Від +2°C до +4°C" });
-        repository.AddProductInfo(new ProductInfo { id = 7, product_id = 7, compositions = "Свинина 100%", calories = 143, storage_conditions = "Від 0°C до +2°C" });
-        repository.AddProductInfo(new ProductInfo { id = 8, product_id = 8, compositions = "М'ясо курчати-бройлера", calories = 113, storage_conditions = "Від 0°C до +2°C" });
-        repository.AddProductInfo(new ProductInfo { id = 9, product_id = 9, compositions = "Свинина, яловичина, яйця, молоко, спеції", calories = 257, storage_conditions = "Від 0°C до +6°C" });
-        repository.AddProductInfo(new ProductInfo { id = 10, product_id = 10, compositions = "Сьомга атлантична", calories = 142, storage_conditions = "Від 0°C до +2°C" });
-        repository.AddProductInfo(new ProductInfo { id = 11, product_id = 11, compositions = "Молоко коров'яче незбиране, молоко знежирене", calories = 53, storage_conditions = "Від +2°C до +6°C" });
-        repository.AddProductInfo(new ProductInfo { id = 12, product_id = 12, compositions = "Молоко коров'яче, закваска на кефірних грибках", calories = 36, storage_conditions = "Від +2°C до +6°C" });
-        repository.AddProductInfo(new ProductInfo { id = 13, product_id = 13, compositions = "Вершки з коров'ячого молока", calories = 661, storage_conditions = "Від -5°C до +5°C" });
-        repository.AddProductInfo(new ProductInfo { id = 14, product_id = 14, compositions = "Молоко коров'яче, сіль, закваска, фермент", calories = 345, storage_conditions = "Від -4°C до +6°C" });
-        repository.AddProductInfo(new ProductInfo { id = 15, product_id = 15, compositions = "Яйця курячі харчові", calories = 157, storage_conditions = "Від 0°C до +20°C" });
-        repository.AddProductInfo(new ProductInfo { id = 16, product_id = 16, compositions = "Борошно житнє, вода, солод, сіль, коріандр", calories = 208, storage_conditions = "При температурі не нижче +6°C" });
-        repository.AddProductInfo(new ProductInfo { id = 17, product_id = 17, compositions = "Борошно пшеничне, вода, дріжджі, цукор, сіль", calories = 262, storage_conditions = "При температурі не нижче +6°C" });
-        repository.AddProductInfo(new ProductInfo { id = 18, product_id = 18, compositions = "Цукор, масло, згущене молоко, какао, яйця", calories = 412, storage_conditions = "Від +2°C до +6°C" });
-        repository.AddProductInfo(new ProductInfo { id = 19, product_id = 19, compositions = "Крупа гречана ядриця", calories = 335, storage_conditions = "У сухому прохолодному місці" });
-        repository.AddProductInfo(new ProductInfo { id = 20, product_id = 20, compositions = "Борошно з твердих сортів пшениці, вода", calories = 359, storage_conditions = "У сухому місці" });
-        repository.AddProductInfo(new ProductInfo { id = 21, product_id = 21, compositions = "Олія соняшникова рафінована", calories = 899, storage_conditions = "У захищеному від світла місці" });
-        repository.AddProductInfo(new ProductInfo { id = 22, product_id = 22, compositions = "100% Арабіка", calories = 2, storage_conditions = "У сухому прохолодному місці" });
-        repository.AddProductInfo(new ProductInfo { id = 23, product_id = 23, compositions = "Чай чорний байховий", calories = 1, storage_conditions = "У сухому місці без сторонніх запахів" });
-        repository.AddProductInfo(new ProductInfo { id = 24, product_id = 24, compositions = "Вода мінеральна природна", calories = 0, storage_conditions = "Від +5°C до +25°C" });
-        repository.AddProductInfo(new ProductInfo { id = 25, product_id = 25, compositions = "Вода, цукор, діоксид вуглецю, барвник, кофеїн", calories = 42, storage_conditions = "Від 0°C до +20°C" });
-        repository.AddProductInfo(new ProductInfo { id = 26, product_id = 26, compositions = "Борошно, м'ясо (свинина, яловичина), цибуля, сіль", calories = 245, storage_conditions = "При температурі -18°C" });
-        repository.AddProductInfo(new ProductInfo { id = 27, product_id = 27, compositions = "Молоко, вершкове масло, цукор, ванілін", calories = 227, storage_conditions = "При температурі -18°C" });
+        var product2 = new Product { id = 2, category_id = 1, name = "Банани Еквадор", count = 200 };
+        product2.SetInfo("100% банани", 89, "Від +12°C до +14°C");
+        repository.AddProduct(product2);
 
-        // ------------------ ЧЕКИ (Receipts) ------------------
-        repository.AddReceipt(new Receipt { id = 1, status = true, time = DateTime.Now.AddDays(-2).AddHours(10), customer_name = "Олександр Петренко", shop_name = "Сільпо" });
-        repository.AddReceipt(new Receipt { id = 2, status = true, time = DateTime.Now.AddDays(-1).AddHours(15), customer_name = "Ірина Ковальчук", shop_name = "АТБ" });
-        repository.AddReceipt(new Receipt { id = 3, status = false, time = DateTime.Now.AddHours(-3), customer_name = "Дмитро Мельник", shop_name = "Novus" });
-        repository.AddReceipt(new Receipt { id = 4, status = true, time = DateTime.Now.AddDays(-5).AddHours(18), customer_name = "Ольга Бойко", shop_name = "Ашан" });
-        repository.AddReceipt(new Receipt { id = 5, status = true, time = DateTime.Now.AddDays(-1).AddHours(9), customer_name = "Максим Шевченко", shop_name = "Сільпо" });
-        repository.AddReceipt(new Receipt { id = 6, status = false, time = DateTime.Now.AddHours(-1), customer_name = "Анна Ткаченко", shop_name = "МегаМаркет" });
-        repository.AddReceipt(new Receipt { id = 7, status = true, time = DateTime.Now.AddDays(-10), customer_name = "Віктор Романенко", shop_name = "АТБ" });
+        var product3 = new Product { id = 3, category_id = 1, name = "Лохина (упаковка)", count = 40 };
+        product3.SetInfo("Ягоди лохини свіжі", 39, "Від 0°C до +4°C");
+        repository.AddProduct(product3);
 
-        // ------------------ АЙТЕМИ ЧЕКІВ (ReceiptItems) ------------------
-        // Чек 1: Овочі, фрукти та курка
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 1, product_id = 1, count = 2 }); // Яблука (2 кг)
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 1, product_id = 4, count = 1 }); // Помідори Черрі
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 1, product_id = 8, count = 1 }); // Куряче філе
+        var product4 = new Product { id = 4, category_id = 2, name = "Помідори Черрі", count = 80 };
+        product4.SetInfo("Помідори", 18, "Від +10°C до +15°C");
+        repository.AddProduct(product4);
 
-        // Чек 2: Молочка, хліб та ковбаса
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 2, product_id = 11, count = 2 }); // Молоко (2 шт)
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 2, product_id = 13, count = 1 }); // Масло
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 2, product_id = 17, count = 1 }); // Батон
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 2, product_id = 9, count = 1 });  // Ковбаса Лікарська
+        var product5 = new Product { id = 5, category_id = 2, name = "Огірки Естафета", count = 120 };
+        product5.SetInfo("Огірки", 15, "Від +8°C до +10°C");
+        repository.AddProduct(product5);
 
-        // Чек 3: Напої та снеки (Статус - в процесі/неоплачений)
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 3, product_id = 24, count = 6 }); // Моршинська (6 шт)
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 3, product_id = 25, count = 2 }); // Coca-Cola
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 3, product_id = 27, count = 3 }); // Морозиво
+        var product6 = new Product { id = 6, category_id = 3, name = "Печериці свіжі", count = 50 };
+        product6.SetInfo("Гриби печериці", 22, "Від +2°C до +4°C");
+        repository.AddProduct(product6);
 
-        // Чек 4: Базові продукти та бакалія
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 4, product_id = 15, count = 1 }); // Яйця
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 4, product_id = 19, count = 2 }); // Гречка (2 кг)
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 4, product_id = 20, count = 3 }); // Спагетті
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 4, product_id = 21, count = 1 }); // Олія
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 4, product_id = 14, count = 1 }); // Сир Комо
+        var product7 = new Product { id = 7, category_id = 5, name = "Свинина (вирізка)", count = 25 };
+        product7.SetInfo("Свинина", 12, "Від +2°C до +2°C");
+        repository.AddProduct(product7);
 
-        // Чек 5: Кава та торт
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 5, product_id = 22, count = 1 }); // Кава Lavazza
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 5, product_id = 18, count = 1 }); // Торт Празький
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 5, product_id = 23, count = 1 }); // Чай
+        var product8 = new Product { id = 8, category_id = 6, name = "Філе куряче Наша Ряба", count = 60 };
+        product8.SetInfo("М'ясо курчати-бройлера", 113, "Від 0°C до +2°C");
+        repository.AddProduct(product8);
 
-        // Чек 6: Напівфабрикати
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 6, product_id = 26, count = 2 }); // Пельмені (2 уп)
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 6, product_id = 12, count = 1 }); // Кефір
+        var product9 = new Product { id = 9, category_id = 8, name = "Ковбаса Лікарська", count = 35 };
+        product9.SetInfo("Свинина, яловичина, яйця, молоко, спеції", 257, "Від 0°C до +6°C");
+        repository.AddProduct(product9);
 
-        // Чек 7: Лосось, овочі
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 7, product_id = 10, count = 2 }); // Стейк лосося
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 7, product_id = 3, count = 1 });  // Лохина
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 7, product_id = 5, count = 1 });  // Огірки
-        repository.AddReceiptItem(new ReceiptItem { receipt_id = 7, product_id = 6, count = 1 });  // Печериці
+        var product10 = new Product { id = 10, category_id = 9, name = "Стейк лосося охолоджений", count = 15 };
+        product10.SetInfo("Сьомга атлантична", 142, "Від 0°C до +2°C");
+        repository.AddProduct(product10);
+
+        var product11 = new Product { id = 11, category_id = 10, name = "Молоко Яготинське 2.6%", count = 100 };
+        product11.SetInfo("Молоко коров'яче незбиране, молоко знежирене", 53, "Від +2°C до +6°C");
+        repository.AddProduct(product11);
+
+        var product12 = new Product { id = 12, category_id = 11, name = "Кефір Галичина 1%", count = 45 };
+        product12.SetInfo("Молоко коров'яче, закваска на кефірних грибках", 36, "Від +2°C до +6°C");
+        repository.AddProduct(product12);
+
+        var product13 = new Product { id = 13, category_id = 12, name = "Масло Селянське 73%", count = 80 };
+        product13.SetInfo("Вершки з коров'ячого молока", 661, "Від -5°C до +5°C");
+        repository.AddProduct(product13);
+
+        var product14 = new Product { id = 14, category_id = 13, name = "Сир Твердий Комо Канторі", count = 30 };
+        product14.SetInfo("Молоко коров'яче, сіль, закваска, фермент", 345, "Від -4°C до +6°C");
+        repository.AddProduct(product14);
+
+        var product15 = new Product { id = 15, category_id = 14, name = "Яйця курячі Ясенсвіт 10 шт", count = 200 };
+        product15.SetInfo("Яйця курячі харчові", 157, "Від 0°C до +20°C");
+        repository.AddProduct(product15);
+
+        var product16 = new Product { id = 16, category_id = 15, name = "Хліб Бородінський нарізаний", count = 40 };
+        product16.SetInfo("Борошно житнє, вода, солод, сіль, коріандр", 208, "При температурі не нижче +6°C");
+        repository.AddProduct(product16);
+
+        var product17 = new Product { id = 17, category_id = 15, name = "Батон Київський", count = 55 };
+        product17.SetInfo("Борошно пшеничне, вода, дріжджі, цукор, сіль", 262, "При температурі не нижче +6°C");
+        repository.AddProduct(product17);
+
+        var product18 = new Product { id = 18, category_id = 17, name = "Торт Празький ROSHEN", count = 10 };
+        product18.SetInfo("Цукор, масло, згущене молоко, какао, яйця", 412, "Від +2°C до +6°C");
+        repository.AddProduct(product18);
+
+        var product19 = new Product { id = 19, category_id = 19, name = "Гречка Сквірянка 1 кг", count = 120 };
+        product19.SetInfo("Крупа гречана ядриця", 335, "У сухому прохолодному місці");
+        repository.AddProduct(product19);
+
+        var product20 = new Product { id = 20, category_id = 20, name = "Спагетті Barilla n.5", count = 90 };
+        product20.SetInfo("Борошно з твердих сортів пшениці, вода", 359, "У сухому місці");
+        repository.AddProduct(product20);
+
+        var product21 = new Product { id = 21, category_id = 22, name = "Олія соняшникова Олейна 850 мл", count = 150 };
+        product21.SetInfo("Олія соняшникова рафінована", 899, "У захищеному від світла місці");
+        repository.AddProduct(product21);
+
+        var product22 = new Product { id = 22, category_id = 26, name = "Кава в зернах Lavazza Oro 1 кг", count = 40 };
+        product22.SetInfo("100% Арабіка", 2, "У сухому прохолодному місці");
+        repository.AddProduct(product22);
+
+        var product23 = new Product { id = 23, category_id = 27, name = "Чай чорний Lipton Yellow Label", count = 85 };
+        product23.SetInfo("Чай чорний байховий", 1, "У сухому місці без сторонніх запахів");
+        repository.AddProduct(product23);
+
+        var product24 = new Product { id = 24, category_id = 29, name = "Вода Моршинська слабогазована 1.5л", count = 300 };
+        product24.SetInfo("Вода мінеральна природна", 0, "Від +5°C до +25°C");
+        repository.AddProduct(product24);
+
+        var product25 = new Product { id = 25, category_id = 30, name = "Coca-Cola 2л", count = 180 };
+        product25.SetInfo("Вода, цукор, діоксид вуглецю, барвник, кофеїн", 42, "Від 0°C до +20°C");
+        repository.AddProduct(product25);
+
+        var product26 = new Product { id = 26, category_id = 33, name = "Пельмені Три Ведмеді Фірмові 800г", count = 65 };
+        product26.SetInfo("Борошно, м'ясо (свинина, яловичина), цибуля, сіль", 245, "При температурі -18°C");
+        repository.AddProduct(product26);
+
+        var product27 = new Product { id = 27, category_id = 34, name = "Морозиво Хрещатик Пломбір", count = 110 };
+        product27.SetInfo("Молоко, вершкове масло, цукор, ванілін", 227, "При температурі -18°C");
+        repository.AddProduct(product27);
+
+        // ------------------ ЧЕКИ ТА АЙТЕМИ (Receipts and ReceiptItems) ------------------
+        var receipt1 = new Receipt { id = 1, status = true, time = DateTime.Now.AddDays(-2).AddHours(10), customer_name = "Олександр Петренко", shop_name = "Сільпо" };
+        receipt1.AddItem(1, 2); // Яблука (2 кг)
+        receipt1.AddItem(4, 1); // Помідори Черрі (1 кг)
+        receipt1.AddItem(8, 1); // Куряче філе (1 кг)
+        repository.AddReceipt(receipt1);
+
+        var receipt2 = new Receipt { id = 2, status = true, time = DateTime.Now.AddDays(-1).AddHours(15), customer_name = "Ірина Ковальчук", shop_name = "АТБ" };
+        receipt2.AddItem(11, 2); // Молоко (2 шт)
+        receipt2.AddItem(13, 1); // Масло (1 шт)
+        receipt2.AddItem(17, 1); // Батон (1 шт)
+        receipt2.AddItem(9, 1);  // Ковбаса Лікарська (1 шт)
+        repository.AddReceipt(receipt2);
+
+        var receipt3 = new Receipt { id = 3, status = false, time = DateTime.Now.AddHours(-3), customer_name = "Дмитро Мельник", shop_name = "Novus" };
+        receipt3.AddItem(24, 6); // Моршинська (6 шт)
+        receipt3.AddItem(25, 2); // Coca-Cola (2 шт)
+        receipt3.AddItem(27, 3); // Морозиво (3 шт)
+        repository.AddReceipt(receipt3);
+
+        var receipt4 = new Receipt { id = 4, status = true, time = DateTime.Now.AddDays(-5).AddHours(18), customer_name = "Ольга Бойко", shop_name = "Ашан" };
+        receipt4.AddItem(15, 1); // Яйця (1 уп)
+        receipt4.AddItem(19, 2); // Гречка (2 кг)
+        receipt4.AddItem(20, 3); // Спагетті (3 уп)
+        receipt4.AddItem(21, 1); // Олія (1 шт)
+        receipt4.AddItem(14, 1); // Сир Комо (1 шт)
+        repository.AddReceipt(receipt4);
+
+        var receipt5 = new Receipt { id = 5, status = true, time = DateTime.Now.AddDays(-1).AddHours(9), customer_name = "Максим Шевченко", shop_name = "Сільpo" };
+        receipt5.AddItem(22, 1); // Кава Lavazza (1 уп)
+        receipt5.AddItem(18, 1); // Торт Празький (1 шт)
+        receipt5.AddItem(23, 1); // Чай Lipton (1 уп)
+        repository.AddReceipt(receipt5);
+
+        var receipt6 = new Receipt { id = 6, status = false, time = DateTime.Now.AddHours(-1), customer_name = "Анна Ткаченко", shop_name = "МегаМаркет" };
+        receipt6.AddItem(26, 2); // Пельмені (2 уп)
+        receipt6.AddItem(12, 1); // Кефір (1 шт)
+        repository.AddReceipt(receipt6);
+
+        var receipt7 = new Receipt { id = 7, status = true, time = DateTime.Now.AddDays(-10), customer_name = "Віктор Романенко", shop_name = "АТБ" };
+        receipt7.AddItem(10, 2); // Стейк лосося (2 шт)
+        receipt7.AddItem(3, 1);  // Лохина (1 уп)
+        receipt7.AddItem(5, 1);  // Огірки (1 шт)
+        receipt7.AddItem(6, 1);  // Печериці (1 шт)
+        repository.AddReceipt(receipt7);
     }
 }
