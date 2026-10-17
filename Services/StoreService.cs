@@ -14,11 +14,10 @@ public class StoreService
         foreach (var product in products)
         {
             var category = _repo.GetCategoryById(product.category_id);
-            var info = _repo.GetProductInfoById(product.id);
             string categoryName = category != null ? category.name : "Невідома категорія";
             Console.WriteLine($"[ID: {product.id}] {product.name} ({categoryName}) - Залишок: {product.count} шт.");
-            if (info != null)
-                Console.WriteLine($"    -> Склад: {info.compositions} | Калорійність: {info.calories} ккал | Зберігання: {info.storage_conditions}");
+            if (product.info != null)
+                Console.WriteLine($"    -> Склад: {product.info.compositions} | Калорійність: {product.info.calories} ккал | Зберігання: {product.info.storage_conditions}");
         }
     }
 
@@ -33,14 +32,13 @@ public class StoreService
             Console.WriteLine($"Час: {receipt.time} | Статус: {statusStr}");
             Console.WriteLine("Позиції в чеку:");
             
-            var itemsInReceipt = _repo.GetAllReceiptItems().Where(ri => ri.receipt_id == receipt.id).ToList();
-            if (itemsInReceipt.Count == 0)
+            if(receipt.items.Count == 0)
             {
-                Console.WriteLine("  - Чек порожній.");
+                Console.WriteLine("  (Чек порожній)");
                 continue;
             }
 
-            foreach (var item in itemsInReceipt)
+            foreach (var item in receipt.items)
             {
                 var product = _repo.GetProductById(item.product_id);
                 string productName = product != null ? product.name : "Невідомий товар";
