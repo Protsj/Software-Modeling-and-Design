@@ -57,10 +57,6 @@ public class StoreRepository
             existingReceipt.time = receipt.time;
             existingReceipt.customer_name = receipt.customer_name;
             existingReceipt.shop_name = receipt.shop_name;
-
-            existingReceipt.ClearItems();
-            foreach(var item in receipt.items)
-                existingReceipt.AddItem(item.product_id, item.count);
         }
     }
 }
