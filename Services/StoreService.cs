@@ -12,31 +12,29 @@ public class StoreService
     public void PrintFullProductInfo()
     {
         var products = _repo.GetAllProducts();
-        Console.WriteLine("\nДЕТАЛЬНИЙ КАТАЛОГ ТОВАРІВ");
         foreach (var product in products)
         {
             var category = _repo.GetCategoryById(product.category_id);
             string categoryName = category != null ? category.name : "Невідома категорія";
-            Console.WriteLine($"[ID: {product.id}] {product.name} ({categoryName}) - Залишок: {product.count} шт.");
+            Logger.LogInfo("[ID: {ProductId}] {ProductName} ({CategoryName}) - Залишок: {AvailableCount} шт.", product.id, product.name, categoryName, product.count);
             if (product.info != null)
-                Console.WriteLine($"    -> Склад: {product.info.compositions} | Калорійність: {product.info.calories} ккал | Зберігання: {product.info.storage_conditions}");
+                Logger.LogInfo("    -> Склад: {Compositions} | Калорійність: {Calories} ккал | Зберігання: {StorageConditions}", product.info.compositions, product.info.calories, product.info.storage_conditions);
         }
     }
 
     public void PrintAllReceiptsDetails()
     {
         var receipts = _repo.GetAllReceipts();
-        Console.WriteLine("\nІСТОРІЯ ЧЕКІВ");
         foreach (var receipt in receipts)
         {
             string statusStr = receipt.status ? "ОПЛАЧЕНО" : "СКАСОВАНО";
-            Console.WriteLine($"\nЧек #{receipt.id} | Магазин: {receipt.shop_name} | Покупець: {receipt.customer_name}");
-            Console.WriteLine($"Час: {receipt.time} | Статус: {statusStr}");
-            Console.WriteLine("Позиції в чеку:");
+            Logger.LogInfo("Чек #{ReceiptId} | Магазин: {ShopName} | Покупець: {CustomerName}", receipt.id, receipt.shop_name, receipt.customer_name);
+            Logger.LogInfo("Час: {ReceiptTime} | Статус: {Status}", receipt.time, statusStr);
+            Logger.LogInfo("Позиції в чеку:");
             
             if(receipt.items.Count == 0)
             {
-                Console.WriteLine("  (Чек порожній)");
+                Logger.LogInfo("Чек #{ReceiptId} порожній.", receipt.id);
                 continue;
             }
 
@@ -45,30 +43,37 @@ public class StoreService
                 var product = _repo.GetProductById(item.product_id);
                 string productName = product != null ? product.name : "Невідомий товар";
 
-                Console.WriteLine($"  - {productName}: {item.count} шт.");
+                Logger.LogInfo("  - {ProductName}: {Count} шт.", productName, item.count);
             }
-            Console.WriteLine(new string('-', 30));
+            Logger.LogInfo(new string('-', 30));
         }
     }
 
     public void ScanProductToReceipt(int receiptId, int productId, int countToBuy)
     {
+        if (SecurityManager.CurrentRole != UserRole.Cashier)
+        {
+            Logger.LogError("Відмовлено в доступі: Сканувати товари може лише Касир.");
+            return;
+        }
+
         var receipt = _repo.GetReceiptById(receiptId);
         var product = _repo.GetProductById(productId);
 
         if(receipt == null)
         {
-            Console.WriteLine($"[Помилка] Чек #{receiptId} не знайдено.");
+            Logger.LogError("Чек #{ReceiptId} не знайдено.", receiptId);
             return;
         }
         if (product == null)
         {
-            Console.WriteLine($"[Помилка] Товар #{productId} не знайдено.");
+            Logger.LogError("Товар #{ProductId} не знайдено.", productId);
             return;
         }
         if(product.count < countToBuy)
         {
-            Console.WriteLine($"[Відмова] Недостатньо товару '{product.name}' на складі. В наявності: {product.count}, Замовлено: {countToBuy}.");
+            Logger.LogError("Відмова: Недостатньо товару '{ProductName}'. В наявності: {AvailableCount}, Замовлено: {CountToBuy}.",
+                product.name, product.count, countToBuy);
             return;
         }
 
@@ -77,11 +82,18 @@ public class StoreService
 
         _repo.UpdateProduct(product);
         _repo.UpdateReceipt(receipt);
-        Console.WriteLine($"[Успіх] {countToBuy} шт. товару '{product.name}' додано до чека #{receiptId}.");
+        Logger.LogInfo("Товар '{ProductName}' ({CountToBuy} шт.) додано до чека #{ReceiptId}.",
+            product.name, countToBuy, receiptId);
     }
 
     public int OpenNewReceipt(string customerName, string shopName)
     {
+        if (SecurityManager.CurrentRole != UserRole.Cashier)
+        {
+            Logger.LogError("Відмовлено в доступі: створювати чеки може лише Касир.");
+            return -1;
+        }
+
         int newId = _repo.GetAllReceipts().Count > 0 ? _repo.GetAllReceipts().Max(r => r.id) + 1 : 1;
         
         var receipt = new Receipt
@@ -94,27 +106,39 @@ public class StoreService
         };
 
         _repo.AddReceipt(receipt);
-        Console.WriteLine($"[Система] Відкрито новий чек #{newId} для покупця {customerName}.");
+        Logger.LogInfo("Відкрито новий чек #{ReceiptId} для покупця {CustomerName}.", newId, customerName);
 
         return newId;
     }
 
     public void CloseReceipt(int receiptId)
     {
+        if (SecurityManager.CurrentRole != UserRole.Cashier)
+        {
+            Logger.LogError("Відмовлено в доступі: Закривати чеки може лише Касир.");
+            return;
+        }
+
         var receipt = _repo.GetReceiptById(receiptId);
         if(receipt == null)
         {
-            Console.WriteLine($"[Помилка] Чек #{receiptId} не знайдено.");
+            Logger.LogError("Чек #{ReceiptId} не знайдено.", receiptId);
             return;
         }
 
         receipt.status = true;
         _repo.UpdateReceipt(receipt);
-        Console.WriteLine($"[Система] Чек #{receiptId} успішно закрито та оплачено.");
+        Logger.LogInfo("Чек #{ReceiptId} успішно закрито та оплачено.", receiptId);
     }
 
     public void AddNewProduct(string name, int categoryId, int count, string compositions, int calories, string storageConditions)
     {
+        if(SecurityManager.CurrentRole != UserRole.Admin)
+        {
+            Logger.LogError("Відмовлено в доступі: Додавати нові товари може лише Адміністратор.");
+            return;
+        }
+
         int newId = _repo.GetAllProducts().Count > 0 ? _repo.GetAllProducts().Max(p => p.id) + 1 : 1;
         
         var product = new Product
@@ -127,6 +151,6 @@ public class StoreService
 
         product.SetInfo(compositions, calories, storageConditions);
         _repo.AddProduct(product);
-        Console.WriteLine($"[Система] Адміністратор додав новий товар: '{name}' (ID: {newId}) у кількості {count} шт.");
+        Logger.LogInfo("Адміністратор додав новий товар: '{ProductName}' (ID: {ProductId}) у кількості {Count} шт.", name, newId, count);
     }
 }
