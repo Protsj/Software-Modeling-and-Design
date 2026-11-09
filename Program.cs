@@ -9,26 +9,55 @@ internal class Program
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-        StoreRepository repository = new StoreRepository();
-        MockData.Initialize(repository);
-        StoreService service = new StoreService(repository);
+        Logger.Initialize();
 
-        service.PrintFullProductInfo();
+        try
+        {
+            Logger.LogInfo("Систему автоматизації магазину запущено.");
 
-        Console.WriteLine("\n=== РОБОТА АДМІНІСТРАТОРА ===");
-        service.AddNewProduct("Енергетик Monster", 30, 50, "Вода, таурин, кофеїн", 45, "Від 0°C до +25°C");
+            StoreRepository repository = new StoreRepository();
+            MockData.Initialize(repository);
+            StoreService service = new StoreService(repository);
 
-        Console.WriteLine("\n=== РОБОТА КАСИРА ===");
-        int activeReceiptId = service.OpenNewReceipt("Іван", "АТБ");
+            Console.WriteLine("\n=== ДЕТАЛЬНИЙ КАТАЛОГ ТОВАРІВ (Доступно всім) ===");
+            service.PrintFullProductInfo();
 
-        service.ScanProductToReceipt(activeReceiptId, 1, 3); // Купує 3 яблука
-        service.ScanProductToReceipt(activeReceiptId, productId: 30, countToBuy: 2); // Купує наш новий енергетик (ID буде 28, бо в MockData їх 27) **Перевірка на правильність ID**
+            Console.WriteLine("\n=== ТЕСТ БЕЗПЕКИ: ДІЯ БЕЗ АВТОРИЗАЦІЇ ===");
+            service.AddNewProduct("Спроба злому", 1, 1, "-", 0, "-");
 
-        service.CloseReceipt(activeReceiptId);
+            Console.WriteLine("\n=== РОБОТА АДМІНІСТРАТОРА ===");
+            SecurityManager.Authenticate("admin", "admin123");
+            service.AddNewProduct("Енергетик Monster", 30, 50, "Вода, таурин, кофеїн", 45, "Від 0°C до +25°C");
+            SecurityManager.Logout();
 
-        Console.WriteLine("\n=== ПЕРЕГЛЯД РЕЗУЛЬТАТІВ (АДМІНІСТРАТОР) ===");
-        service.PrintAllReceiptsDetails();
+            Console.WriteLine("\n=== РОБОТА КАСИРА ===");
+            SecurityManager.Authenticate("cashier", "cashier123");
 
-        Console.ReadLine();
+            int activeReceiptId = service.OpenNewReceipt("Іван", "АТБ");
+
+            if (activeReceiptId != -1)
+            {
+                service.ScanProductToReceipt(activeReceiptId, 1, 3);
+                service.ScanProductToReceipt(activeReceiptId, productId: 28, countToBuy: 2);
+                service.CloseReceipt(activeReceiptId);
+            }
+
+            Console.WriteLine("\n=== ТЕСТ БЕЗПЕКИ: КАСИР НАМАГАЄТЬСЯ ДОДАТИ ТОВАР ===");
+            service.AddNewProduct("Товар від касира", 1, 10, "-", 0, "-");
+            SecurityManager.Logout();
+
+            Console.WriteLine("\n=== ПЕРЕГЛЯД РЕЗУЛЬТАТІВ (АДМІНІСТРАТОР) ===");
+            SecurityManager.Authenticate("admin", "admin123");
+            service.PrintAllReceiptsDetails();
+            SecurityManager.Logout();
+        }
+        catch(Exception ex)
+        {
+            Serilog.Log.Fatal(ex, "Виникла критична помилка під час роботи системи.");
+        }
+        finally
+        {
+            Logger.Close();
+        }
     }
 }
