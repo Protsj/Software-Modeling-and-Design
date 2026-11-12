@@ -27,7 +27,7 @@ public class StoreService
         var receipts = _repo.GetAllReceipts();
         foreach (var receipt in receipts)
         {
-            string statusStr = receipt.status ? "ОПЛАЧЕНО" : "СКАСОВАНО";
+            string statusStr = receipt.state == ReceiptState.Open ? "Відкритий" : receipt.state == ReceiptState.Paid ? "Оплачений" : "Скасований";
             Logger.LogInfo("Чек #{ReceiptId} | Магазин: {ShopName} | Покупець: {CustomerName}", receipt.id, receipt.shop_name, receipt.customer_name);
             Logger.LogInfo("Час: {ReceiptTime} | Статус: {Status}", receipt.time, statusStr);
             Logger.LogInfo("Позиції в чеку:");
@@ -99,7 +99,6 @@ public class StoreService
         var receipt = new Receipt
         {
             id = newId,
-            status = false,
             time = DateTime.Now,
             customer_name = customerName,
             shop_name = shopName
@@ -125,10 +124,41 @@ public class StoreService
             Logger.LogError("Чек #{ReceiptId} не знайдено.", receiptId);
             return;
         }
+        try
+        {
+            receipt.Pay();
+            _repo.UpdateReceipt(receipt);
+            Logger.LogInfo("Чек #{ReceiptId} успішно закрито та оплачено.", receiptId);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("Помилка оплати чека #{ReceiptId}: {Message}", receiptId, ex.Message);
+            return;
+        }
+        
+    }
 
-        receipt.status = true;
-        _repo.UpdateReceipt(receipt);
-        Logger.LogInfo("Чек #{ReceiptId} успішно закрито та оплачено.", receiptId);
+    public void CancelReceipt(int receiptId)
+    {
+        if (SecurityManager.CurrentRole != UserRole.Cashier)
+        {
+            Logger.LogError("Відмовлено в доступі: скасовувати чеки може лише Касир.");
+            return;
+        }
+
+        var receipt = _repo.GetReceiptById(receiptId);
+        if (receipt == null) return;
+
+        try
+        {
+            receipt.Cancel();
+            _repo.UpdateReceipt(receipt);
+            Logger.LogInfo("Чек #{ReceiptId} було СКАСОВАНО.", receiptId);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("Помилка скасування чека #{ReceiptId}: {Message}", receiptId, ex.Message);
+        }
     }
 
     public void AddNewProduct(string name, int categoryId, int count, string compositions, int calories, string storageConditions)
