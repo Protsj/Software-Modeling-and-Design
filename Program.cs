@@ -42,6 +42,16 @@ internal class Program
                 service.CloseReceipt(activeReceiptId);
             }
 
+            int emptyReceiptId = service.OpenNewReceipt("Олена", "Сільпо");
+            Logger.LogInfo("Спроба закрити порожній чек...");
+            service.CloseReceipt(emptyReceiptId);
+
+            service.CancelReceipt(emptyReceiptId);
+
+            Logger.LogInfo("Спроба відсканувати товар у скасований чек...");
+            try { service.ScanProductToReceipt(emptyReceiptId, 1, 1); }
+            catch (Exception ex) { Logger.LogError(ex.Message); }
+
             Console.WriteLine("\n=== ТЕСТ БЕЗПЕКИ: КАСИР НАМАГАЄТЬСЯ ДОДАТИ ТОВАР ===");
             service.AddNewProduct("Товар від касира", 1, 10, "-", 0, "-");
             SecurityManager.Logout();

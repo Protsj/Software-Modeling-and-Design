@@ -151,49 +151,56 @@ public class MockData
         repository.AddProduct(product27);
 
         // ------------------ ЧЕКИ ТА АЙТЕМИ (Receipts and ReceiptItems) ------------------
-        var receipt1 = new Receipt { id = 1, status = true, time = DateTime.Now.AddDays(-2).AddHours(10), customer_name = "Олександр Петренко", shop_name = "Сільпо" };
+        var receipt1 = new Receipt { id = 1, time = DateTime.Now.AddDays(-2).AddHours(10), customer_name = "Олександр Петренко", shop_name = "Сільpo" };
         receipt1.AddItem(1, 2); // Яблука (2 кг)
         receipt1.AddItem(4, 1); // Помідори Черрі (1 кг)
         receipt1.AddItem(8, 1); // Куряче філе (1 кг)
+        receipt1.Pay();
         repository.AddReceipt(receipt1);
 
-        var receipt2 = new Receipt { id = 2, status = true, time = DateTime.Now.AddDays(-1).AddHours(15), customer_name = "Ірина Ковальчук", shop_name = "АТБ" };
+        var receipt2 = new Receipt { id = 2, time = DateTime.Now.AddDays(-1).AddHours(15), customer_name = "Ірина Ковальчук", shop_name = "АТБ" };
         receipt2.AddItem(11, 2); // Молоко (2 шт)
         receipt2.AddItem(13, 1); // Масло (1 шт)
         receipt2.AddItem(17, 1); // Батон (1 шт)
         receipt2.AddItem(9, 1);  // Ковбаса Лікарська (1 шт)
+        receipt2.Pay();
         repository.AddReceipt(receipt2);
 
-        var receipt3 = new Receipt { id = 3, status = false, time = DateTime.Now.AddHours(-3), customer_name = "Дмитро Мельник", shop_name = "Novus" };
+        var receipt3 = new Receipt { id = 3, time = DateTime.Now.AddHours(-3), customer_name = "Дмитро Мельник", shop_name = "Novus" };
         receipt3.AddItem(24, 6); // Моршинська (6 шт)
         receipt3.AddItem(25, 2); // Coca-Cola (2 шт)
         receipt3.AddItem(27, 3); // Морозиво (3 шт)
+        receipt3.Pay();
         repository.AddReceipt(receipt3);
 
-        var receipt4 = new Receipt { id = 4, status = true, time = DateTime.Now.AddDays(-5).AddHours(18), customer_name = "Ольга Бойко", shop_name = "Ашан" };
+        var receipt4 = new Receipt { id = 4, time = DateTime.Now.AddDays(-5).AddHours(18), customer_name = "Ольга Бойко", shop_name = "Ашан" };
         receipt4.AddItem(15, 1); // Яйця (1 уп)
         receipt4.AddItem(19, 2); // Гречка (2 кг)
         receipt4.AddItem(20, 3); // Спагетті (3 уп)
         receipt4.AddItem(21, 1); // Олія (1 шт)
         receipt4.AddItem(14, 1); // Сир Комо (1 шт)
+        receipt4.Pay();
         repository.AddReceipt(receipt4);
 
-        var receipt5 = new Receipt { id = 5, status = true, time = DateTime.Now.AddDays(-1).AddHours(9), customer_name = "Максим Шевченко", shop_name = "Сільpo" };
+        var receipt5 = new Receipt { id = 5, time = DateTime.Now.AddDays(-1).AddHours(9), customer_name = "Максим Шевченко", shop_name = "Сільpo" };
         receipt5.AddItem(22, 1); // Кава Lavazza (1 уп)
         receipt5.AddItem(18, 1); // Торт Празький (1 шт)
         receipt5.AddItem(23, 1); // Чай Lipton (1 уп)
+        receipt5.Pay();
         repository.AddReceipt(receipt5);
 
-        var receipt6 = new Receipt { id = 6, status = false, time = DateTime.Now.AddHours(-1), customer_name = "Анна Ткаченко", shop_name = "МегаМаркет" };
+        var receipt6 = new Receipt { id = 6, time = DateTime.Now.AddHours(-1), customer_name = "Анна Ткаченко", shop_name = "МегаМаркет" };
         receipt6.AddItem(26, 2); // Пельмені (2 уп)
         receipt6.AddItem(12, 1); // Кефір (1 шт)
+        receipt6.Pay();
         repository.AddReceipt(receipt6);
 
-        var receipt7 = new Receipt { id = 7, status = true, time = DateTime.Now.AddDays(-10), customer_name = "Віктор Романенко", shop_name = "АТБ" };
+        var receipt7 = new Receipt { id = 7, time = DateTime.Now.AddDays(-10), customer_name = "Віктор Романенко", shop_name = "АТБ" };
         receipt7.AddItem(10, 2); // Стейк лосося (2 шт)
         receipt7.AddItem(3, 1);  // Лохина (1 уп)
         receipt7.AddItem(5, 1);  // Огірки (1 шт)
         receipt7.AddItem(6, 1);  // Печериці (1 шт)
+        receipt7.Pay();
         repository.AddReceipt(receipt7);
     }
 }
