@@ -25,38 +25,22 @@ public class StoreRepository
 
 	public void UpdateCategory(Category category)
     {
-        var existingCategory = GetCategoryById(category.id);
-        if (existingCategory != null)
-            existingCategory.name = category.name;
+        int index = _categories.FindIndex(c => c.id == category.id);
+        if (index != -1)
+            _categories[index] = category;
     }
 
 	public void UpdateProduct(Product product)
     {
-        var existingProduct = GetProductById(product.id);
-        if (existingProduct != null)
-        {
-            existingProduct.category_id = product.category_id;
-            existingProduct.name = product.name;
-            existingProduct.count = product.count;
-            if (product.info != null)
-            {
-                existingProduct.SetInfo(
-                    product.info.compositions, 
-                    product.info.calories, 
-                    product.info.storage_conditions);
-            }
-        }
+        int index = _products.FindIndex(p => p.id == product.id);
+        if (index != -1)
+            _products[index] = product;
     }
 
     public void UpdateReceipt(Receipt receipt)
     {
-        var existingReceipt = GetReceiptById(receipt.id);
-        if (existingReceipt != null)
-        {
-            existingReceipt.status = receipt.status;
-            existingReceipt.time = receipt.time;
-            existingReceipt.customer_name = receipt.customer_name;
-            existingReceipt.shop_name = receipt.shop_name;
-        }
+        int index = _receipts.FindIndex(r => r.id == receipt.id);
+        if (index != -1)
+            _receipts[index] = receipt;
     }
 }
